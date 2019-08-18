@@ -2,12 +2,21 @@ package com.bruno.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /*Os objetos de uma classe Serializable podem ser convertidos 
 em uma sequencia de bytes. Serve para os objetos serem 
 gravados em arquivos, trafegar em redes etc. */
+
+@Entity   //indica que esta classe é uma entidade do JPA
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //definindo a estratégia de geração automática dos id's
 	private Integer id;
 	private String name;	
 	
