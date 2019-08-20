@@ -1,28 +1,28 @@
 package com.bruno.cursomc.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bruno.cursomc.domain.Category;
+import com.bruno.cursomc.services.CategoryService;
 
-@RestController   						 //A classe é um controlador REST
+@RestController   						 //A classe é um controlador REST.
 @RequestMapping(value = "/categories")   //Vai responder por esse endpoint
 public class CategoryResource {
 	
-	@RequestMapping(method = RequestMethod.GET)  //requisição para obter dados "GET"
-	public List<Category> toList() {
+	@Autowired
+	private CategoryService service; //Acesso a classe de serviço
+	
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)  //requisição para obter dados "GET"
+	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
-		Category cat1 = new Category(1, "Informática");
-		Category cat2 = new Category(2, "Escritório");
+		Category obj = service.search(id);
 		
-		List<Category> list = new ArrayList<>();
-		list.add(cat1);
-		list.add(cat2);
-		
-		return list;	//retorna uma lista de categorias
+		//se tudo estiver ok, retorna o objeto da classe "Category"
+		return ResponseEntity.ok().body(obj);
 	}
 }
