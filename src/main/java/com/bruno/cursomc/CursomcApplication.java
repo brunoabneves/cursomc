@@ -23,6 +23,7 @@ public class CursomcApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
+		//objetos que serão inseridos no bd
 		Category cat1 = new Category(null, "Informática");
 		Category cat2 = new Category(null, "Escritório");
 		
