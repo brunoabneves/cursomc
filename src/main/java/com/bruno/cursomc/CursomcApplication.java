@@ -8,9 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.bruno.cursomc.domain.Category;
+import com.bruno.cursomc.domain.City;
 import com.bruno.cursomc.domain.Product;
+import com.bruno.cursomc.domain.State;
 import com.bruno.cursomc.repositories.CategoryRepository;
+import com.bruno.cursomc.repositories.CityRepository;
 import com.bruno.cursomc.repositories.ProductRepository;
+import com.bruno.cursomc.repositories.StateRepository;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
@@ -19,6 +23,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private StateRepository stateRepository;
+	@Autowired
+	private CityRepository cityRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -48,6 +56,20 @@ public class CursomcApplication implements CommandLineRunner {
 		 *Salva todas as categorias e produtos */
 		categoryRepository.saveAll(Arrays.asList(cat1,cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		State state1 = new State(null, "Minas Gerais");
+		State state2 = new State(null, "São Paulo");
+		
+		City c1 = new City(null, "Uberlândia", state1);
+		City c2 = new City(null, "São Paulo", state2);
+		City c3 = new City(null, "Campinas", state2);
+		
+		state1.getCities().addAll(Arrays.asList(c1));
+		state2.getCities().addAll(Arrays.asList(c2, c3));
+		
+		//Salva primeiro os estados pois uma cidade obrigatoriamente precisa de 1 estado
+		stateRepository.saveAll(Arrays.asList(state1, state2));
+		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}
 
 }
