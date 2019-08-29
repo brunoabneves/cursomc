@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.bruno.cursomc.domain.Address;
 import com.bruno.cursomc.domain.Category;
 import com.bruno.cursomc.domain.City;
+import com.bruno.cursomc.domain.Client;
 import com.bruno.cursomc.domain.Product;
 import com.bruno.cursomc.domain.State;
+import com.bruno.cursomc.domain.enums.ClientType;
+import com.bruno.cursomc.repositories.AddressRepository;
 import com.bruno.cursomc.repositories.CategoryRepository;
 import com.bruno.cursomc.repositories.CityRepository;
+import com.bruno.cursomc.repositories.ClientRepository;
 import com.bruno.cursomc.repositories.ProductRepository;
 import com.bruno.cursomc.repositories.StateRepository;
 
@@ -27,6 +32,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private StateRepository stateRepository;
 	@Autowired
 	private CityRepository cityRepository;
+	@Autowired
+	private ClientRepository clientRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -70,6 +79,19 @@ public class CursomcApplication implements CommandLineRunner {
 		//Salva primeiro os estados pois uma cidade obrigatoriamente precisa de 1 estado
 		stateRepository.saveAll(Arrays.asList(state1, state2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PHYSICALPERSON);
+		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Address a1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+		Address a2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		//Adicionando os endereços do cliente 1
+		cli1.getAdresses().addAll(Arrays.asList(a1, a2));
+		
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(a1, a2));
+		
 	}
 
 }
