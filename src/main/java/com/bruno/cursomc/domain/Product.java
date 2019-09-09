@@ -2,7 +2,9 @@ package com.bruno.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -34,6 +37,10 @@ public class Product implements Serializable {
 	//Associação do Produto com a Categoria
 	private List<Category> categories = new ArrayList<>(); 
 	
+	//Associação com a classe de associação
+	@OneToMany(mappedBy = "id.product")
+	private Set<RequestItem> itens = new HashSet<>();
+	
 	public Product() {
 		
 	}
@@ -43,6 +50,17 @@ public class Product implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+	}
+	
+	public List<Request> getRequests(){
+		List<Request> list = new ArrayList<>();
+		
+		/*Para cada item de pedido "x" que existir na lista de itens, 
+		será adicionado o pedido associado a ele, na lista */
+		for(RequestItem x : itens) {
+			list.add(x.getRequest());
+		}
+		return list;
 	}
 
 	public Integer getId() {
@@ -75,6 +93,14 @@ public class Product implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public Set<RequestItem> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<RequestItem> itens) {
+		this.itens = itens;
 	}
 
 	@Override

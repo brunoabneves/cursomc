@@ -17,6 +17,7 @@ import com.bruno.cursomc.domain.PaymentWithCard;
 import com.bruno.cursomc.domain.PaymentWithTicket;
 import com.bruno.cursomc.domain.Product;
 import com.bruno.cursomc.domain.Request;
+import com.bruno.cursomc.domain.RequestItem;
 import com.bruno.cursomc.domain.State;
 import com.bruno.cursomc.domain.enums.ClientType;
 import com.bruno.cursomc.domain.enums.PaymentState;
@@ -26,6 +27,7 @@ import com.bruno.cursomc.repositories.CityRepository;
 import com.bruno.cursomc.repositories.ClientRepository;
 import com.bruno.cursomc.repositories.PaymentRepository;
 import com.bruno.cursomc.repositories.ProductRepository;
+import com.bruno.cursomc.repositories.RequestItemRepository;
 import com.bruno.cursomc.repositories.RequestRepository;
 import com.bruno.cursomc.repositories.StateRepository;
 
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private RequestRepository requestRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private RequestItemRepository requestItemRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -120,6 +124,20 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		requestRepository.saveAll(Arrays.asList(req1, req2));
 		paymentRepository.saveAll(Arrays.asList(paymt1, paymt2));
+		
+		RequestItem ri1 = new RequestItem(req1, p1, 0.00, 1, 2000.00);
+		RequestItem ri2 = new RequestItem(req1, p3, 0.00, 2, 80.00);
+		RequestItem ri3 = new RequestItem(req2, p2, 100.00, 1, 800.00);
+		
+		req1.getItens().addAll(Arrays.asList(ri1, ri2));
+		req2.getItens().addAll(Arrays.asList(ri3));
+		
+		p1.getItens().addAll(Arrays.asList(ri1));
+		p2.getItens().addAll(Arrays.asList(ri3));
+		p3.getItens().addAll(Arrays.asList(ri2));
+		
+		requestItemRepository.saveAll(Arrays.asList(ri1, ri2, ri3));
+		
 	}
 
 }

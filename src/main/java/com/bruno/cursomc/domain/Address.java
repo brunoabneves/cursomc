@@ -24,10 +24,10 @@ public class Address implements Serializable {
 	private String neighborhood; //bairro
 	private String cep;
 	
+	//Associação endereço-cliente
 	@JsonBackReference   //não pode serializar o cliente
 	@ManyToOne
 	@JoinColumn(name = "client_id")
-	//Associação enddereço-cliente
 	private Client client;
 	
 	@ManyToOne
