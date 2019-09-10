@@ -6,12 +6,16 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.bruno.cursomc.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class PaymentWithTicket extends Payment{
 	private static final long serialVersionUID = 1L;
 
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dueDate;  	  //data de vencimento
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date datePayment; //data de pagamento
 	
 	public PaymentWithTicket() {

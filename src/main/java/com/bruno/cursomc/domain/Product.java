@@ -15,7 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable {
@@ -27,19 +27,20 @@ public class Product implements Serializable {
 	private String name;
 	private double price;
 	
-	@JsonBackReference
+	
 	@ManyToMany
 	//DEFININDO A TABELA QUE FARÁ O "MUITOS PARA MUITOS" NO BD
 	@JoinTable(name = "PRODUCT_CATEGORY",
 		joinColumns = @JoinColumn(name = "product_id"),
 		inverseJoinColumns = @JoinColumn(name = "category_id")
 	)
-	//Associação do Produto com a Categoria
+	@JsonIgnore
 	private List<Category> categories = new ArrayList<>(); 
 	
 	//Associação com a classe de associação
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.product")
-	private Set<RequestItem> itens = new HashSet<>();
+	private Set<RequestItem> items = new HashSet<>();
 	
 	public Product() {
 		
@@ -52,12 +53,13 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 	
+	@JsonIgnore	//para não serializar essa lista de pedidos. Referenica cíclica
 	public List<Request> getRequests(){
 		List<Request> list = new ArrayList<>();
 		
 		/*Para cada item de pedido "x" que existir na lista de itens, 
 		será adicionado o pedido associado a ele, na lista */
-		for(RequestItem x : itens) {
+		for(RequestItem x : items) {
 			list.add(x.getRequest());
 		}
 		return list;
@@ -95,12 +97,12 @@ public class Product implements Serializable {
 		this.categories = categories;
 	}
 
-	public Set<RequestItem> getItens() {
-		return itens;
+	public Set<RequestItem> getItems() {
+		return items;
 	}
 
-	public void setItens(Set<RequestItem> itens) {
-		this.itens = itens;
+	public void setItems(Set<RequestItem> items) {
+		this.items = items;
 	}
 
 	@Override

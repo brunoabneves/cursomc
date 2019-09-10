@@ -24,15 +24,19 @@ public class RequestItemPK implements Serializable{
 	public Request getRequest() {
 		return request;
 	}
+	
 	public void setRequest(Request request) {
 		this.request = request;
 	}
+	
 	public Product getProduct() {
 		return product;
 	}
+	
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -41,6 +45,7 @@ public class RequestItemPK implements Serializable{
 		result = prime * result + ((product == null) ? 0 : product.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

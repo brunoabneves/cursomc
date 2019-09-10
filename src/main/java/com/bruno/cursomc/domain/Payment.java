@@ -11,6 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.bruno.cursomc.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 //mapeamento das superclasse. Cria uma tabela única para pagamentos
@@ -22,6 +23,7 @@ public abstract class Payment implements Serializable {
 	private Integer id;
 	private Integer state;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="request_id")
 	@MapsId //garante que o id seja o mesmo do pedido
@@ -45,7 +47,7 @@ public abstract class Payment implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public PaymentState getState() {
 		return PaymentState.toEnum(state);
 	}
@@ -54,12 +56,12 @@ public abstract class Payment implements Serializable {
 		this.state = state.getCod();
 	}
 
-	public Request getOrder() {
+	public Request getRequest() {
 		return request;
 	}
 
-	public void setOrder(Request order) {
-		this.request = order;
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 
 	@Override

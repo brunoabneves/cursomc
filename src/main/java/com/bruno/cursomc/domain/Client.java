@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.bruno.cursomc.domain.enums.ClientType;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Client implements Serializable {
@@ -28,8 +28,7 @@ public class Client implements Serializable {
 	private String email;
 	private String cpfOrcnpj;
 	private Integer type;    //internamente o tipo será armazenado como um inteiro
-	
-	@JsonManagedReference  //pode serializar o endereço. O iinverso não é válido
+		
 	@OneToMany(mappedBy = "client")
 	private List<Address> adresses = new ArrayList<>();
 	
@@ -38,6 +37,7 @@ public class Client implements Serializable {
 	//Um CONJUNTO (não aceita repetições) de Strings
 	private Set<String> phones = new HashSet<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Request> requests = new ArrayList<>();
 	

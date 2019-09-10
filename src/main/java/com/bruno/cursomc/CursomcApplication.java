@@ -132,9 +132,9 @@ public class CursomcApplication implements CommandLineRunner {
 		req1.getItens().addAll(Arrays.asList(ri1, ri2));
 		req2.getItens().addAll(Arrays.asList(ri3));
 		
-		p1.getItens().addAll(Arrays.asList(ri1));
-		p2.getItens().addAll(Arrays.asList(ri3));
-		p3.getItens().addAll(Arrays.asList(ri2));
+		p1.getItems().addAll(Arrays.asList(ri1));
+		p2.getItems().addAll(Arrays.asList(ri3));
+		p3.getItems().addAll(Arrays.asList(ri2));
 		
 		requestItemRepository.saveAll(Arrays.asList(ri1, ri2, ri3));
 		

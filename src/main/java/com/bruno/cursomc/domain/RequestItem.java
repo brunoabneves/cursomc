@@ -1,16 +1,18 @@
-package com.bruno.cursomc.domain;
+	package com.bruno.cursomc.domain;
 
 import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class RequestItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	//id composto
-	@EmbeddedId
+	@JsonIgnore		// não serializa nimguém
+	@EmbeddedId		// id composto
 	private RequestItemPK id = new RequestItemPK();
 	
 	private Double discount;
@@ -30,6 +32,7 @@ public class RequestItem implements Serializable {
 		this.price = price;
 	}
 
+	@JsonIgnore
 	public Request getRequest() {
 		return id.getRequest();
 	}

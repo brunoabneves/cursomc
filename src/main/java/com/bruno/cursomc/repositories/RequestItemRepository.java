@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bruno.cursomc.domain.RequestItem;
 
-//faz esta classe ter acesso à tabela "Categories" no BD
+//faz esta classe ter acesso à tabela "Request" no BD
 @Repository
 public interface RequestItemRepository extends JpaRepository<RequestItem, Integer>{
 

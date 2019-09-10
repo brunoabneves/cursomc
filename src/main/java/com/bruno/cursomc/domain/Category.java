@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /*Os objetos de uma classe Serializable podem ser convertidos 
 em uma sequencia de bytes. Serve para os objetos serem 
 gravados em arquivos, trafegar em redes etc. */
@@ -25,9 +23,6 @@ public class Category implements Serializable {
 	private Integer id;
 	private String name;	
 	
-	/* resolve o problema da referência cíclica. 
-	 * Avisa a classe que pode serializar os produtos sem problemas*/
-	@JsonManagedReference
 	@ManyToMany(mappedBy = "categories")
 	//Associação da Categoria com o Produto
 	private List<Product> products = new ArrayList<>();
