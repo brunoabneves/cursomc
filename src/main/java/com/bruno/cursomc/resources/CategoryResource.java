@@ -1,6 +1,8 @@
 package com.bruno.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bruno.cursomc.domain.Category;
+import com.bruno.cursomc.dto.CategoryDTO;
 import com.bruno.cursomc.services.CategoryService;
 
 @RestController   						 //A classe é um controlador REST.
@@ -52,4 +55,15 @@ public class CategoryResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	/*O método busca as listas de Categorias no banco e converte para DTO. 
+	Retorna uma lista de categorias DTO */
+	public ResponseEntity<List<CategoryDTO>> findAll() {
+		List<Category> list = service.findAll();
+		//Percorre a lista e instancia o DTO correspondente para cada elemento da lista
+		List<CategoryDTO> listDTO = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 }
