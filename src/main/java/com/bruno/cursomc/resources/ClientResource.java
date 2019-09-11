@@ -18,9 +18,9 @@ public class ClientResource {
 	private ClientService service; //Acesso a classe de serviço
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)  //requisição para obter dados "GET"
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Client> find(@PathVariable Integer id) {
 		
-		Client obj = service.search(id);
+		Client obj = service.find(id);
 		
 		//se tudo estiver ok, retorna o objeto da classe "Client"
 		return ResponseEntity.ok().body(obj);

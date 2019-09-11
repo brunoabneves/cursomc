@@ -16,7 +16,7 @@ public class CategoryService {
 	@Autowired  
 	private CategoryRepository repo; //Acesso a classe de dados
 	
-	public Category search(Integer id) {
+	public Category find(Integer id) {
 		
 		/*esta operação vai no BD, busca uma categoria com 
 		o id e retorna uma categoria já pronta */
@@ -27,6 +27,12 @@ public class CategoryService {
 	
 	public Category insert(Category obj) {
 		obj.setId(null);
+		return repo.save(obj);
+	}
+	
+	public Category update(Category obj) {
+		//testa se o objeto existe
+		find(obj.getId());
 		return repo.save(obj);
 	}
 	

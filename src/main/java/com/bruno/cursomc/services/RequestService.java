@@ -16,7 +16,7 @@ public class RequestService {
 	@Autowired  
 	private RequestRepository repo; //Acesso a classe de dados
 	
-	public Request search(Integer id) {
+	public Request find(Integer id) {
 		
 		/*esta operação vai no BD, busca uma categoria com 
 		o id e retorna uma categoria já pronta */

@@ -18,9 +18,9 @@ public class RequestResource {
 	private RequestService service; //Acesso a classe de serviço
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)  //requisição para obter dados "GET"
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Request> find(@PathVariable Integer id) {
 		
-		Request obj = service.search(id);
+		Request obj = service.find(id);
 		
 		//se tudo estiver ok, retorna o objeto da classe "Request"
 		return ResponseEntity.ok().body(obj);

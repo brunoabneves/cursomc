@@ -16,7 +16,7 @@ public class ClientService {
 	@Autowired  
 	private ClientRepository repo; //Acesso a classe de dados
 	
-	public Client search(Integer id) {
+	public Client find(Integer id) {
 		/*esta operação vai no BD, busca uma categoria com 
 		o id e retorna uma categoria já pronta */
 		Optional<Client> obj = repo.findById(id);  

@@ -22,9 +22,9 @@ public class CategoryResource {
 	private CategoryService service; //Acesso a classe de serviço
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)  //requisição para obter dados "GET"
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Category> find(@PathVariable Integer id) {
 		
-		Category obj = service.search(id);
+		Category obj = service.find(id);
 		
 		//se tudo estiver ok, retorna o objeto da classe "Category"
 		return ResponseEntity.ok().body(obj);
@@ -37,5 +37,13 @@ public class CategoryResource {
 		//pega a URI do novo recurso inserido
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Category obj, @PathVariable Integer id){
+		obj.setId(id);
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
 	}
 }
