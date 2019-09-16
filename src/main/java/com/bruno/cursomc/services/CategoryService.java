@@ -12,6 +12,7 @@ import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.stereotype.Service;
 
 import com.bruno.cursomc.domain.Category;
+import com.bruno.cursomc.dto.CategoryDTO;
 import com.bruno.cursomc.repositories.CategoryRepository;
 import com.bruno.cursomc.services.exceptions.DataIntegrityException;
 import com.bruno.cursomc.services.exceptions.ObjectNotFoundException;
@@ -62,6 +63,11 @@ public class CategoryService {
 	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	//Instancia uma Categoria a partir de um DTO
+	public Category fromDTO(CategoryDTO objDTO) {
+		return new Category(objDTO.getId(), objDTO.getName());
 	}
 	
 }
