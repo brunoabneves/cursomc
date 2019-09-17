@@ -39,8 +39,9 @@ public class CategoryService {
 	
 	public Category update(Category obj) {
 		//testa se o objeto existe
-		find(obj.getId());
-		return repo.save(obj);
+		Category newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	public void delete(Integer id) {
@@ -67,6 +68,11 @@ public class CategoryService {
 	//Instancia uma Categoria a partir de um DTO
 	public Category fromDTO(CategoryDTO objDTO) {
 		return new Category(objDTO.getId(), objDTO.getName());
+	}
+	
+	//Atualiza o valor nome de "newObj" sem alterar os outros campos
+	private void updateData(Category newObj, Category obj) {
+		newObj.setName(obj.getName());
 	}
 	
 }
