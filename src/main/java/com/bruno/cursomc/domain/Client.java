@@ -51,7 +51,8 @@ public class Client implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.cpfOrcnpj = cpfOrcnpj;
-		this.type = type.getCod();  //armazena somente o código
+		//se o tipo for nulo atribui-se nulo a esse campo, do contrário atibui-se o código
+		this.type = (type==null) ? null : type.getCod();   //armazena somente o código
 	}
 
 	public Integer getId() {
