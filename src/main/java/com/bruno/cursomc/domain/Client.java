@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Client implements Serializable {
 	private String cpfOrcnpj;
 	private Integer type;    //internamente o tipo será armazenado como um inteiro
 		
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Address> adresses = new ArrayList<>();
 	
 	@ElementCollection
