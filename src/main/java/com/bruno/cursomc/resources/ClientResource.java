@@ -1,5 +1,6 @@
 package com.bruno.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bruno.cursomc.domain.Client;
 import com.bruno.cursomc.dto.ClientDTO;
+import com.bruno.cursomc.dto.ClientNewDTO;
 import com.bruno.cursomc.services.ClientService;
 
 @RestController   						 //A classe é um controlador REST.
@@ -33,6 +36,16 @@ public class ClientResource {
 		
 		//se tudo estiver ok, retorna o objeto da classe "Client"
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	//Recebe uma categoria no formato JSON e a insere no BD
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO objDTO){
+		Client obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		//pega a URI do novo recurso inserido
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
