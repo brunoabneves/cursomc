@@ -56,6 +56,15 @@ public class Request implements Serializable {
 		this.deliveryAddress = deliveryAddress;
 	}
 	
+	//retorna o valor total de um pedido
+	public double getAmount() {
+		double sum = 0.0;
+		for(RequestItem ri : itens) {
+			sum = sum + ri.getSubTotal();
+		}
+		return sum;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
