@@ -33,6 +33,7 @@ public class ClientUpdateValidator implements ConstraintValidator<ClientUpdate, 
 	@Override
 	public boolean isValid(ClientDTO objDto, ConstraintValidatorContext context) {
 		
+		@SuppressWarnings("unchecked")
 		//O Map serve para armazernar chave e valor do http
 		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		//Salva o id da URI, na variável "uriId"
