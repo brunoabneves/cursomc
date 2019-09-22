@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 
 import com.bruno.cursomc.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("paymentWithTicket")
 public class PaymentWithTicket extends Payment{
 	private static final long serialVersionUID = 1L;
 

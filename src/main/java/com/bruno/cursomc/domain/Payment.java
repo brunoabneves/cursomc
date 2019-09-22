@@ -12,10 +12,13 @@ import javax.persistence.OneToOne;
 
 import com.bruno.cursomc.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 //mapeamento das superclasse. Cria uma tabela única para pagamentos
 @Inheritance(strategy = InheritanceType.JOINED)
+//Basicameente, esta anotação adiciona o campo type na classe
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
