@@ -38,6 +38,9 @@ public class RequestService {
 	@Autowired
 	private ClientService clientService;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	public Request find(Integer id) {
 		
 		/*esta operação vai no BD, busca uma categoria com 
@@ -69,7 +72,7 @@ public class RequestService {
 			ri.setRequest(obj);
 		}
 		requestItemRepository.saveAll(obj.getItens());
-		System.out.println(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}
 }
