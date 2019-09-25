@@ -35,6 +35,9 @@ public class RequestService {
 	@Autowired
 	private RequestItemRepository requestItemRepository;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	public Request find(Integer id) {
 		
 		/*esta operação vai no BD, busca uma categoria com 
@@ -48,6 +51,7 @@ public class RequestService {
 	public Request insert(Request obj) {
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.find(obj.getClient().getId()));
 		obj.getPayment().setState(PaymentState.PENDENTE);
 		//Associação de mão dupla
 		obj.getPayment().setRequest(obj);
@@ -60,10 +64,12 @@ public class RequestService {
 		//Percorre todos os itens de pedido associados ao obj
 		for(RequestItem ri : obj.getItens()) {
 			ri.setDiscount(0.0);
-			ri.setPrice(productService.find(ri.getProduct().getId()).getPrice());
+			ri.setProduct(productService.find(ri.getProduct().getId()));
+			ri.setPrice(ri.getProduct().getPrice());
 			ri.setRequest(obj);
 		}
 		requestItemRepository.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 }
