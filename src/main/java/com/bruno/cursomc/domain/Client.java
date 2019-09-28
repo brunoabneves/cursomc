@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.bruno.cursomc.domain.enums.ClientType;
+import com.bruno.cursomc.domain.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -44,12 +47,16 @@ public class Client implements Serializable {
 	//Um CONJUNTO (não aceita repetições) de Strings
 	private Set<String> phones = new HashSet<>();
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PROFILES")
+	private Set<Integer> profiles = new HashSet<>();
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Request> requests = new ArrayList<>();
 	
 	public Client() {
-		
+		addPerfil(Profile.CLIENT);
 	}
 	
 	public Client(Integer id, String name, String email, String cpfOrcnpj, ClientType type, String password) {
@@ -61,6 +68,7 @@ public class Client implements Serializable {
 		//se o tipo for nulo atribui-se nulo a esse campo, do contrário atibui-se o código
 		this.type = (type==null) ? null : type.getCod();   //armazena somente o código
 		this.password = password;
+		addPerfil(Profile.CLIENT);
 	}
 
 	public Integer getId() {
@@ -109,6 +117,14 @@ public class Client implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Set<Profile> getPerfis() {
+		return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Profile perfil) {
+		profiles.add(perfil.getCod());
 	}
 
 	public List<Address> getAdresses() {

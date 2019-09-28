@@ -21,6 +21,7 @@ import com.bruno.cursomc.domain.RequestItem;
 import com.bruno.cursomc.domain.State;
 import com.bruno.cursomc.domain.enums.ClientType;
 import com.bruno.cursomc.domain.enums.PaymentState;
+import com.bruno.cursomc.domain.enums.Profile;
 import com.bruno.cursomc.repositories.AddressRepository;
 import com.bruno.cursomc.repositories.CategoryRepository;
 import com.bruno.cursomc.repositories.CityRepository;
@@ -125,14 +126,20 @@ public class DBService {
 		Client cli1 = new Client(null, "Maria Silva", "brunoabnevestst@gmail.com", "36378912377", ClientType.PHYSICALPERSON, pe.encode("123"));
 		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 
+		Client cli2 = new Client(null, "Ana Costa", "brunoabneves97@gmail.com", "31628382740", ClientType.PHYSICALPERSON, pe.encode("123"));
+		cli2.getPhones().addAll(Arrays.asList("93883321", "34252625"));
+		cli2.addPerfil(Profile.ADMIN);
+		
 		Address a1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
 		Address a2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		Address a3 = new Address(null, "Avenida Floriano", "2106", null, "Centro", "281777012", cli2, c2);
 
 		// Adicionando os endereços do cliente 1
 		cli1.getAdresses().addAll(Arrays.asList(a1, a2));
+		cli2.getAdresses().addAll(Arrays.asList(a3));
 
-		clientRepository.saveAll(Arrays.asList(cli1));
-		addressRepository.saveAll(Arrays.asList(a1, a2));
+		clientRepository.saveAll(Arrays.asList(cli1, cli2));
+		addressRepository.saveAll(Arrays.asList(a1, a2, a3));
 
 		// Máscara de formatação para data
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
