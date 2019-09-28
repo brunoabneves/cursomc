@@ -32,6 +32,9 @@ public class Client implements Serializable {
 	private String email;
 	private String cpfOrcnpj;
 	private Integer type;    //internamente o tipo será armazenado como um inteiro
+	
+	@JsonIgnore
+	private String password;
 		
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Address> adresses = new ArrayList<>();
@@ -49,7 +52,7 @@ public class Client implements Serializable {
 		
 	}
 	
-	public Client(Integer id, String name, String email, String cpfOrcnpj, ClientType type) {
+	public Client(Integer id, String name, String email, String cpfOrcnpj, ClientType type, String password) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -57,6 +60,7 @@ public class Client implements Serializable {
 		this.cpfOrcnpj = cpfOrcnpj;
 		//se o tipo for nulo atribui-se nulo a esse campo, do contrário atibui-se o código
 		this.type = (type==null) ? null : type.getCod();   //armazena somente o código
+		this.password = password;
 	}
 
 	public Integer getId() {
@@ -97,6 +101,14 @@ public class Client implements Serializable {
 
 	public void setType(ClientType type) {
 		this.type = type.getCod();
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public List<Address> getAdresses() {

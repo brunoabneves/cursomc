@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,9 @@ public class ClientService {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	public Client find(Integer id) {
 		/*esta operação vai no BD, busca uma categoria com 
@@ -78,12 +82,12 @@ public class ClientService {
 	
 	//Instancia uma Cliente a partir de um DTO
 	public Client fromDTO(ClientDTO objDTO) {
-		return new Client(objDTO.getId(), objDTO.getName() , objDTO.getEmail(), null, null);
+		return new Client(objDTO.getId(), objDTO.getName() , objDTO.getEmail(), null, null,null);
 	}
 	
 	//Retorna um cliente com todas as suas associações obrigatórias intanciadas
 	public Client fromDTO(ClientNewDTO objDTO) {
-		Client cli = new Client(null, objDTO.getName(), objDTO.getEmail(), objDTO.getCpfOrcnpj(), ClientType.toEnum(objDTO.getType()));
+		Client cli = new Client(null, objDTO.getName(), objDTO.getEmail(), objDTO.getCpfOrcnpj(), ClientType.toEnum(objDTO.getType()), pe.encode(objDTO.getPassword()));
 		City city = new City(objDTO.getCityId(), null, null);
 		Address ad = new Address(null, objDTO.getPublicPlace(), objDTO.getNumber(), objDTO.getComplement(), objDTO.getNeighborhood(), objDTO.getCep(), cli, city);
 		cli.getAdresses().add(ad);
