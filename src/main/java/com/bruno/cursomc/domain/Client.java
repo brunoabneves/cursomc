@@ -56,7 +56,7 @@ public class Client implements Serializable {
 	private List<Request> requests = new ArrayList<>();
 	
 	public Client() {
-		addPerfil(Profile.CLIENT);
+		addProfile(Profile.CLIENT);
 	}
 	
 	public Client(Integer id, String name, String email, String cpfOrcnpj, ClientType type, String password) {
@@ -68,7 +68,7 @@ public class Client implements Serializable {
 		//se o tipo for nulo atribui-se nulo a esse campo, do contrário atibui-se o código
 		this.type = (type==null) ? null : type.getCod();   //armazena somente o código
 		this.password = password;
-		addPerfil(Profile.CLIENT);
+		addProfile(Profile.CLIENT);
 	}
 
 	public Integer getId() {
@@ -119,11 +119,11 @@ public class Client implements Serializable {
 		this.password = password;
 	}
 	
-	public Set<Profile> getPerfis() {
+	public Set<Profile> getProfiles() {
 		return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
 	}
 
-	public void addPerfil(Profile perfil) {
+	public void addProfile(Profile perfil) {
 		profiles.add(perfil.getCod());
 	}
 
