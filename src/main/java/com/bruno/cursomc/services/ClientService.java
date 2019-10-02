@@ -16,10 +16,13 @@ import com.bruno.cursomc.domain.Address;
 import com.bruno.cursomc.domain.City;
 import com.bruno.cursomc.domain.Client;
 import com.bruno.cursomc.domain.enums.ClientType;
+import com.bruno.cursomc.domain.enums.Profile;
 import com.bruno.cursomc.dto.ClientDTO;
 import com.bruno.cursomc.dto.ClientNewDTO;
 import com.bruno.cursomc.repositories.AddressRepository;
 import com.bruno.cursomc.repositories.ClientRepository;
+import com.bruno.cursomc.security.UserSS;
+import com.bruno.cursomc.services.exceptions.AuthorizationException;
 import com.bruno.cursomc.services.exceptions.DataIntegrityException;
 import com.bruno.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -37,6 +40,14 @@ public class ClientService {
 	private BCryptPasswordEncoder pe;
 	
 	public Client find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		/*se o cliente logado não for ADMIN e não for o cliente do id 
+		solicitado, lançar uma exceção*/
+		if(user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		/*esta operação vai no BD, busca uma categoria com 
 		o id e retorna uma categoria já pronta */
 		Optional<Client> obj = repo.findById(id);  
